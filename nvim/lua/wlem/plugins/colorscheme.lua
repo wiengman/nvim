@@ -1,5 +1,5 @@
 return {
-  "bluz/vim-nightfly-guicolors",
+  "bluz71/vim-nightfly-guicolors",
   priority = 1000, -- load first
   config = function ()
 	  -- load colorscheme
