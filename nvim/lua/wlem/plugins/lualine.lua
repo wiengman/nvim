@@ -1,5 +1,5 @@
 return {
-  "nvim-lualine/lualine.nvim",
+   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local lualine = require("lualine")
@@ -32,7 +32,7 @@ return {
         b = { bg = colors.bg, fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
       },
-      command = {
+    command = {
         a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
