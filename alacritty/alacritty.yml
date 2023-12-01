@@ -8,6 +8,10 @@ font:
     family: CaskaydiaCove NF
 
 window:
+  padding:
+    x: 5
+    y: 5
+  dynamic_padding: true
   # Title
   title: Alacritty
 
@@ -16,6 +20,7 @@ window:
     instance: Alacritty
     general: Alacritty
 
+  opacity: 0.98
 
 scrolling:
   history: 5000
@@ -25,5 +30,4 @@ shell:
   args:
     - -NoLogo
 
-window:
-  opacity: 0.98
+
