@@ -2,6 +2,11 @@ env:
   TERM: xterm-256color
   COLORTERM: truecolor
 
+font:
+  size: 10
+  normal:
+    family: CaskaydiaCove NF
+
 window:
   # Title
   title: Alacritty
