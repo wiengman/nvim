@@ -6,7 +6,7 @@ TERM = "xterm-256color"
 size = 10
 
 [font.normal]
-family = "CaskaydiaCove NF"
+family = "CaskaydiaCove Nerd Font"
 
 [scrolling]
 history = 5000
@@ -23,3 +23,7 @@ instance = "Alacritty"
 [window.padding]
 x = 5
 y = 5
+
+[shell]
+program = "pwsh.exe"
+args = ["-NoLogo"]
