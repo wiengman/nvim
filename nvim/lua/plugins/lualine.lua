@@ -48,11 +48,14 @@ return {
         c = { bg = colors.inactive_bg, fg = colors.semilightgray },
       },
     }
-
     -- configure lualine with modified theme
     lualine.setup({
       options = {
         theme = my_lualine_theme,
+        disabled_filetypes = {
+           statusline = {'neo-tree', 'neo-tree-popup', "Terminal"},
+           winbar = {'neo-tree', 'neo-tree-popup', "Terminal"}
+        },
       },
       sections = {
         lualine_x = {
