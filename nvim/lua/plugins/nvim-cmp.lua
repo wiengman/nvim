@@ -8,16 +8,11 @@ return {
     "hrsh7th/cmp-path", -- source for file system paths
     "hrsh7th/vim-vsnip", -- snippet engine
     "hrsh7th/cmp-vsnip", -- for autocompletion
-    "onsails/lspkind.nvim", -- vs-code like pictograms
   },
   config = function()
     local cmp = require("cmp")
-    local lspkind = require("lspkind")
 
     cmp.setup({
-      completion = {
-        completeopt = "menu,menuone,preview,noselect",
-      },
       snippet = { -- configure how nvim-cmp interacts with snippet engine
        expand = function(args)
         vim.fn["vsnip#anonymous"](args.body)

@@ -3,6 +3,7 @@
 -- Add any additional options here
 
 local opt = vim.opt -- for conciseness
+local api = vim.api
 
 -- line numbers
 opt.relativenumber = false -- show relative line numbers
@@ -45,3 +46,12 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfile
 opt.swapfile = false
 
+
+
+
+
+opt.completeopt = {'menuone', 'noselect', 'noinsert'}
+opt.shortmess = vim.opt.shortmess + { c = true}
+
+
+api.nvim_set_option('updatetime', 300)
