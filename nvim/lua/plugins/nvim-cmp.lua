@@ -18,11 +18,11 @@ return {
       completion = {
         completeopt = "menu,menuone,preview,noselect",
       },
-      --snippet = { -- configure how nvim-cmp interacts with snippet engine
-       -- expand = function(args)
-        --  luasnip.lsp_expand(args.body)
-       -- end,
-      --},
+      snippet = { -- configure how nvim-cmp interacts with snippet engine
+       expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+       end,
+      },
       mapping = cmp.mapping.preset.insert({
         ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
         ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
@@ -34,18 +34,38 @@ return {
       }),
       -- sources for autocompletion
       sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" }, -- snippets
-        { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
+        { name = "nvim_lsp", keyword_length = 3 },
+        { name = "nvim_lsp_signature_help" },
+        { name = "nvim_lua", keyword_length = 2 },
+        { name = "vsnip", keyword_length = 2 }, -- snippets
+        { name = "buffer", keyword_length = 2}, -- text within current buffer
+        { name = "calc" }, -- file system paths
       }),
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      },
       -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
-        format = lspkind.cmp_format({
-          maxwidth = 50,
-          ellipsis_char = "...",
-        }),
+      fields = {'menu', 'abbr', 'kind'},
+      format = function(entry, item)
+          local menu_icon ={
+              nvim_lsp = 'λ',
+              vsnip = '⋗',
+              buffer = 'Ω',
+              path = '🖫',
+          }
+          item.menu = menu_icon[entry.source.name]
+          return item
+      end,
       },
     })
+
+    vim.cmd([[
+    set signcolumn=yes
+    autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+    ]])
+
   end,
 }
