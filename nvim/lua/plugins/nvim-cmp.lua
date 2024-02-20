@@ -37,6 +37,7 @@ return {
         { name = "nvim_lua" },
         { name = "vsnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
+        { name = "crates" },
       }),
       -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
