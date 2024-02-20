@@ -8,8 +8,10 @@ return {
     "hrsh7th/cmp-path", -- source for file system paths
     "hrsh7th/vim-vsnip", -- snippet engine
     "hrsh7th/cmp-vsnip", -- for autocompletion
+    "onsails/lspkind.nvim",
   },
   config = function()
+    local lspkind = require("lspkind")
     local cmp = require("cmp")
 
     cmp.setup({
@@ -30,32 +32,66 @@ return {
       -- sources for autocompletion
       sources = cmp.config.sources({
         { name = "path" }, -- file system paths
-        { name = "nvim_lsp", keyword_length = 3 },
+        { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
-        { name = "nvim_lua", keyword_length = 2 },
-        { name = "vsnip", keyword_length = 2 }, -- snippets
-        { name = "buffer", keyword_length = 2}, -- text within current buffer
-        { name = "calc" }, -- file system paths
+        { name = "nvim_lua" },
+        { name = "vsnip" }, -- snippets
+        { name = "buffer" }, -- text within current buffer
       }),
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      },
       -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
-      fields = {'menu', 'abbr', 'kind'},
-      format = function(entry, item)
-          local menu_icon ={
-              nvim_lsp = 'λ',
-              vsnip = '⋗',
-              buffer = 'Ω',
-              path = '🖫',
-          }
-          item.menu = menu_icon[entry.source.name]
-          return item
-      end,
+        fields = {'menu', 'abbr', 'kind'},
+        format = lspkind.cmp_format({
+          mode = 'symbol_text',
+          show_labelDetails = true,
+          ellipsis_char = '...',
+          maxwidth = 50,
+          symbol_map = {
+            Text = "󰉿",
+            Method = "󰆧",
+            Function = "󰊕",
+            Constructor = "",
+            Field = "󰜢",
+            Variable = "󰀫",
+            Class = "󰠱",
+            Interface = "",
+            Module = "",
+            Property = "󰜢",
+            Unit = "󰑭",
+            Value = "󰎠",
+            Enum = "",
+            Keyword = "󰌋",
+            Snippet = "",
+            Color = "󰏘",
+            File = "󰈙",
+            Reference = "󰈇",
+            Folder = "󰉋",
+            EnumMember = "",
+            Constant = "󰏿",
+            Struct = "󰙅",
+            Event = "",
+            Operator = "󰆕",
+            TypeParameter = "",
+          },
+        }),
       },
     })
+
+    cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+      }
+    })
+
+    cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
 
     vim.cmd([[
     set signcolumn=yes

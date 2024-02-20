@@ -47,9 +47,6 @@ opt.splitbelow = true -- split horizontal window to the bottom
 opt.swapfile = false
 
 
-
-
-
 opt.completeopt = {'menuone', 'noselect', 'noinsert'}
 opt.shortmess = vim.opt.shortmess + { c = true}
 

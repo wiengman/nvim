@@ -12,7 +12,6 @@ return {
     }
   },  
 
-
   {
     "williamboman/mason-lspconfig.nvim",
     opts = {
@@ -23,5 +22,7 @@ return {
       }
     }
   },
+
+
     "neovim/nvim-lspconfig",
 }

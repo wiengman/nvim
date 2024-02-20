@@ -38,7 +38,7 @@ return {
         {text = "󰌵", texthl = "DiagnosticSignHint"})
 
       require("neo-tree").setup({
-        close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
+        close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
         enable_git_status = true,
         enable_diagnostics = true,
@@ -130,8 +130,8 @@ return {
         -- see `:h neo-tree-custom-commands-global`
         commands = {},
         window = {
-          position = "left",
-          width = 40,
+          position = "right",
+          width = 30,
           mapping_options = {
             noremap = true,
             nowait = true,
@@ -144,7 +144,7 @@ return {
             ["<2-LeftMouse>"] = "open",
             ["<cr>"] = "open",
             ["<esc>"] = "cancel", -- close preview or floating neo-tree window
-            ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+            ["p"] = { "toggle_preview", config = { use_float = true } },
             -- Read `# Preview Mode` for more information
             ["l"] = "focus_preview",
             ["S"] = "open_split",
@@ -293,6 +293,7 @@ return {
               ["gr"] = "git_revert_file",
               ["gc"] = "git_commit",
               ["gp"] = "git_push",
+              ["gs"] = "git_status",
               ["gg"] = "git_commit_and_push",
               ["o"] = { "show_help", nowait=false, config = { title = "Order by", prefix_key = "o" }},
               ["oc"] = { "order_by_created", nowait = false },
