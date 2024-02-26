@@ -1,7 +1,7 @@
 return {
   {
     "williamboman/mason.nvim",
-  opts = {
+    opts = {
       ui = {
       icons = {
             package_installed = "✓",
@@ -10,12 +10,12 @@ return {
         }
       }
     }
-  },  
+  },
 
   {
     "williamboman/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = { 
+      ensure_installed = {
         "lua_ls",
         "rust_analyzer",
         "clangd",
@@ -23,13 +23,63 @@ return {
     }
   },
 
+  {
+    "simrat39/rust-tools.nvim",
+    opts = {
+      tools = {
+        runnables = {
+          use_telescope = true,
+        },
+
+      inlay_hints = {
+        auto = true,
+      },
+    },
+
+    server = {
+      on_attach = function(client, buffer)
+
+      end,
+      settings = {
+        ["rust-analyzer"] = {
+          checkOnSave = {
+            command = "clippy",
+            },
+          },
+        },
+      },
+    },
+  },
 
   {
     "neovim/nvim-lspconfig",
     opts = {
-      servers = {
-        clangd = {
-          cmd = {
+        severity_sort = true,
+        underline = true,
+        update_in_insert = true, -- Update in runtime
+        inlay_hints = {
+          enabled = true,
+      },
+
+      format = {
+        formatting_options = nil,
+        timeout_ms = nil,
+      },
+
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = " ",
+          [vim.diagnostic.severity.WARN] =  " ",
+          [vim.diagnostic.severity.HINT] =  " ",
+          [vim.diagnostic.severity.INFO] =  " ",
+        },
+      },
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      lspconfig["clangd"].setup({
+        settings ={
+        cmd = {
             "clangd",
             "--background-index",
             "--all-scopes-completion",
@@ -44,53 +94,26 @@ return {
             "--enable-config",
             "--pretty",
           },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
+        }
+      })
+
+     lspconfig["lua_ls"].setup({
+      settings = { -- custom settings for lua
+        Lua = {
+          -- make the language server recognize "vim" global
+          diagnostics = {
+            globals = { "vim" },
           },
-          capabilities = {
-            offsetEncoding = { "utf-16" },
-          },
-        },
-        rust_analyzer = {},
-        lua_ls = {},
-      },
-    },
-    setup = {
-      clangd = function(_, opts)
-        local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
-        require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
-        return false
-      end,
-      rust_analyzer = function(_, opts)
-        return {
-          settings = {
-            ["rust-analyzer"] = {
-              imports = {
-                granularity = {
-                  group = "module",
-                },
-                prefix = "self",
-              },
-              checkOnSave = {
-                allFeatures = true,
-                command = "clippy",
-                extraArgs = { "--no-deps" },
-              },
-              cargo = {
-                buildScripts = {
-                  enable = true,
-                },
-              },
-              procMacro = {
-                enable = true,
-              },
+          workspace = {
+            -- make language server aware of runtime files
+            library = {
+              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+              [vim.fn.stdpath("config") .. "/lua"] = true,
             },
           },
-        }
-      end,
-      lua_ls = function(_, opts) end,
-    },
+        },
+      },
+    })
+    end,
   },
 }
