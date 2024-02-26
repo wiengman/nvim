@@ -37,13 +37,13 @@ return {
     },
 
     server = {
-      on_attach = function(client, buffer)
-
-      end,
       settings = {
         ["rust-analyzer"] = {
           checkOnSave = {
-            command = "clippy",
+            command = {
+              "fmt",
+              "clippy"
+              },
             },
           },
         },
@@ -77,8 +77,19 @@ return {
     },
     config = function()
       local lspconfig = require("lspconfig")
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local on_attach = function(_client, _buffer)
+      end
+
+      local clangd_attach = function(_client, _buffer)
+        on_attach(_client, _buffer)
+        require("clangd_extensions.inlay_hints").setup_autocmd()
+        require("clangd_extensions.inlay_hints").set_inlay_hints()
+      end
       lspconfig["clangd"].setup({
-        settings ={
+        on_attach = clangd_attach,
+        capabilities = capabilities,
+        settings = {
         cmd = {
             "clangd",
             "--background-index",
@@ -97,7 +108,11 @@ return {
         }
       })
 
+
+
      lspconfig["lua_ls"].setup({
+       on_attach = on_attach,
+       capabilities = capabilities,
       settings = { -- custom settings for lua
         Lua = {
           -- make the language server recognize "vim" global

@@ -1,7 +1,7 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
-    dependencies = { 
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
@@ -22,8 +22,8 @@ return {
                         buftype = { 'terminal', "quickfix" },
                     },
             },
-        })
-        end,
+        })        
+      end,
       },
     },
     config = function ()
@@ -94,7 +94,7 @@ return {
               -- Change type
               added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
               modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-              deleted   = "✖",-- this can only be used in the git_status source
+              deleted   = "✖ ",-- this can only be used in the git_status source
               renamed   = "󰁕",-- this can only be used in the git_status source
               -- Status type
               untracked = "",
@@ -131,20 +131,20 @@ return {
         commands = {},
         window = {
           position = "right",
-          width = 30,
+          width = 40,
           mapping_options = {
             noremap = true,
             nowait = true,
           },
           mappings = {
-            ["<space>"] = { 
-                "toggle_node", 
+            ["<space>"] = {
+                "toggle_node",
                 nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use 
             },
             ["<2-LeftMouse>"] = "open",
             ["<cr>"] = "open",
             ["<esc>"] = "cancel", -- close preview or floating neo-tree window
-            ["p"] = { "toggle_preview", config = { use_float = true } },
+            ["P"] = { "toggle_preview", config = { use_float = true } },
             -- Read `# Preview Mode` for more information
             ["l"] = "focus_preview",
             ["S"] = "open_split",
@@ -160,7 +160,7 @@ return {
             -- ['C'] = 'close_all_subnodes',
             ["z"] = "close_all_nodes",
             --["Z"] = "expand_all_nodes",
-            ["a"] = { 
+            ["a"] = {
               "add",
               -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
               -- some commands may take optional config options, see `:h neo-tree-mappings` for details
@@ -306,7 +306,6 @@ return {
           }
         }
       })
-
-      vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
+      vim.keymap.set({'n', 'i'}, '<C-p>','<Cmd>Neotree toggle<cr>')
     end
 }

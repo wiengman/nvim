@@ -49,6 +49,6 @@ opt.swapfile = false
 
 opt.completeopt = {'menuone', 'noselect', 'noinsert'}
 opt.shortmess = vim.opt.shortmess + { c = true}
-
+opt.cmdheight = 0
 
 api.nvim_set_option('updatetime', 300)
