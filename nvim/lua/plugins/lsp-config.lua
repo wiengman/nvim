@@ -12,6 +12,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "rust_analyzer",
+          "clangd"
         },
       })
     end,
@@ -45,6 +46,10 @@ return {
             },
           },
         },
+      })
+
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
       })
     end,
   },
