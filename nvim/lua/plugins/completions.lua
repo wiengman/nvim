@@ -7,10 +7,14 @@ return {
     dependencies = {
       "saadparwaiz1/cmp_luasnip",
       "rafamadriz/friendly-snippets",
+
     },
   },
   {
     "hrsh7th/nvim-cmp",
+    dependencies = {
+      "p00f/clangd_extensions.nvim"
+    },
     config = function()
       -- Set up nvim-cmp.
       local cmp = require("cmp")
@@ -20,6 +24,16 @@ return {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
           end,
+          sorting = {
+            comparators = {
+              cmp.config.compare.offset,
+              cmp.config.compare.exact,
+              cmp.config.compare.score,
+              cmp.config.compare.recently_used,
+              require("clangd_extensions.cmp_scores"),
+              cmp.config.compare.kind,
+            }
+          }
         },
 
         -- style
