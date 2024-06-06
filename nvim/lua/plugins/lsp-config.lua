@@ -57,6 +57,15 @@ return {
       })
 
       lspconfig.clangd.setup({
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--suggest-missing-includes",
+          "--clang-tidy",
+          "--function-arg-placeholders",
+          "--enable-config",
+
+        },
         capabilities = capabilities,
         on_attach = function(_, _)
           require("clangd_extensions.inlay_hints").setup_autocmd()
