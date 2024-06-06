@@ -1,5 +1,8 @@
 return {
 	"gelguy/wilder.nvim",
+	dependencies = {
+		"romgrk/fzy-lua-native",
+	},
 	config = function()
 		local wilder = require("wilder")
 		wilder.setup({
@@ -9,15 +12,16 @@ return {
 				"/",
 			},
 		})
+		wilder.set_option("use_python_remote_plugin", 0)
 
 		-- pipeline configuration
 		wilder.set_option("pipeline", {
 			wilder.branch(
 				wilder.cmdline_pipeline({
 					fuzzy = 2,
-					set_pcre2_pattern = 1,
+					fuzzy_filter = wilder.lua_fzy_filter(),
 				}),
-				wilder.vim_search_pipeline({})
+				wilder.vim_search_pipeline()
 			),
 		})
 
@@ -26,8 +30,7 @@ return {
 			"renderer",
 			wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
 				highlighter = {
-					wilder.pcre2_highlighter(),
-					wilder.basic_highlighter(),
+					wilder.lua_fzy_highlighter(),
 				},
 				highlights = {
 					border = "Normal",

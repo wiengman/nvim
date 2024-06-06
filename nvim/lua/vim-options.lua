@@ -8,7 +8,7 @@ options.softtabstop = 2
 
 -- Cursor and lines
 options.number = true
-options.relativenumber = false
+options.relativenumber = true
 options.cursorline = true
 
 -- file search
