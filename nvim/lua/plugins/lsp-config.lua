@@ -73,7 +73,9 @@ return {
 							"--enable-config",
               "--pch-storage=memory", -- might cause oom
               "--header-insertion=never",
-              "--malloc-trim"
+              "--malloc-trim",
+              "--limit-references=200",
+              "--limit-results=50"
 						},
 						capabilities = capabilities,
 						on_attach = function(_, _)
