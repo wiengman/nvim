@@ -64,11 +64,16 @@ return {
 					lspconfig.clangd.setup({
 						cmd = {
 							"clangd",
+              "-j=2",
+              "--all-scopes-completion",
 							"--background-index",
 							"--suggest-missing-includes",
 							"--clang-tidy",
 							"--function-arg-placeholders",
 							"--enable-config",
+              "--pch-storage=memory", -- might cause oom
+              "--header-insertion=never",
+              "--malloc-trim"
 						},
 						capabilities = capabilities,
 						on_attach = function(_, _)

@@ -18,7 +18,7 @@ vim.loader.enable()
 require("vim-options")
 require("lazy").setup("plugins", {
   change_detection = {
-    enabled = false,
+    notify = false,
   },
   defaults = {
     lazy = false
