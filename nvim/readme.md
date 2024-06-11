@@ -4,5 +4,6 @@
 * floatterm?
 * debugger
 * lualine tabline (normal mode tab cycling)
-* cpp support for sourceswap, goto definition, search tags, etc
+* cpp support for sourceswap, goto definition
 * neotest
+* gitsigns fix diff preview
