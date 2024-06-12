@@ -18,22 +18,16 @@ options.smartcase = true
 -- Disable swapfile
 options.swapfile = false
 
--- Yank to default clipboard
-options.clipboard:append("unnamedplus")
 
 -- set updatetime
 options.updatetime = 300
 
+vim.wo.wrap = false
+
 --leader
 vim.g.mapleader = " "
 
-vim.api.nvim_create_augroup("neotree", {})
-vim.api.nvim_create_autocmd("UiEnter", {
-  desc = "Open Neotree automatically",
-  group = "neotree",
-  callback = function()
-    if vim.fn.argc() == 0 then
-      vim.cmd("Neotree toggle")
-    end
-  end,
-})
+-- Yank to default clipboard
+options.clipboard:append("unnamedplus")
+vim.keymap.set({'n', 'v'}, 'd', '"_d', { noremap = true })
+vim.keymap.set('n', 'dd', '"_dd', { noremap = true })

@@ -3,7 +3,6 @@ return {
 	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		-- set nerd font, remove if not working
 		"nvim-tree/nvim-web-devicons",
 		"MunifTanjim/nui.nvim",
 	},
@@ -11,7 +10,36 @@ return {
 		vim.keymap.set({ "n", "i" }, "<C-n>", ":Neotree toggle right<CR>", {})
 
 		require("neo-tree").setup({
-			close_if_last_window = false,
+			close_if_last_window = true,
+			event_handlers = {
+				{
+					event = "file_opened",
+					handler = function(_)
+						require("neo-tree.command").execute({ action = "close" })
+					end,
+				},
+				--[[ {
+					event = "neo_tree_buffer_leave",
+					handler = function(_)
+						require("neo-tree.command").execute({ action = "close" })
+					end,
+				}, ]]
+			},
+			git_status = {
+				symbols = {
+					-- Change type
+					added = "✚",
+					modified = "",
+					deleted = "✖",
+					renamed = "󰁕",
+					-- Status type
+					untracked = "",
+					ignored = "",
+					unstaged = "󰄱",
+					staged = "",
+					conflict = "",
+				},
+			},
 			window = {
 				position = "right",
 			},
