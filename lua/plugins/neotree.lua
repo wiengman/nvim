@@ -3,6 +3,7 @@ return {
 	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope.nvim",
 		"nvim-tree/nvim-web-devicons",
 		"MunifTanjim/nui.nvim",
 	},
@@ -63,6 +64,24 @@ return {
 				position = "right",
 			},
 			filesystem = {
+       window = {
+         mappings = {
+           ["<C-P>"] = function(state)
+             local node = state.tree:get_node()
+              local node_path = node.path
+              if not vim.fn.isdirectory(node_path) ~= 0 then
+                -- grab folder from file
+                node_path = string.gsub(node_path, "([^/]+$)", "")
+              end
+              require("telescope.builtin").live_grep({
+                prompt_title = "Live Grep in " .. node_path,
+                search_dirs = {
+                  node_path
+                }
+              })
+           end,
+         },
+        },
 				use_libuv_file_watcher = true,
 				filtered_items = {
 					visible = true, -- when true, they will just be displayed differently than normal items
