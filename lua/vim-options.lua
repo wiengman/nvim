@@ -18,6 +18,8 @@ options.smartcase = true
 -- Disable swapfile
 options.swapfile = false
 
+-- hide cmdline when not in use
+options.cmdheight = 0
 
 -- set updatetime
 options.updatetime = 300
