@@ -18,8 +18,6 @@ options.smartcase = true
 -- Disable swapfile
 options.swapfile = false
 
--- hide cmdline when not in use
-options.cmdheight = 0
 
 -- set updatetime
 options.updatetime = 300
@@ -35,6 +33,8 @@ vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { noremap = true })
 vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
 
 
+-- hide cmdline when not in use
+--[[ options.cmdheight = 0
 vim.api.nvim_create_autocmd({ "CmdlineEnter" }, {
   pattern = { "*" },
   command = "set cmdheight=1"
@@ -43,5 +43,5 @@ vim.api.nvim_create_autocmd({ "CmdlineEnter" }, {
 vim.api.nvim_create_autocmd({ "CmdlineLeave" }, {
   pattern = { "*" },
   command = "set cmdheight=0"
-})
+}) ]]
 
