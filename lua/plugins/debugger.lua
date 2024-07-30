@@ -4,7 +4,7 @@ return {
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
   },
-  lazy = true,
+  event = "VeryLazy",
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")

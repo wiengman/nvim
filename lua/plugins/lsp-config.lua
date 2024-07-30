@@ -1,13 +1,14 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "p00f/clangd_extensions.nvim",
+    },
+    event = "VeryLazy",
     config = function()
       require("mason").setup()
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",        -- lua
@@ -17,14 +18,6 @@ return {
         },
         automatic_installation = true,
       })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "p00f/clangd_extensions.nvim",
-    },
-    config = function()
       local keymap_opts = {
         noremap = true,
       }
