@@ -17,10 +17,7 @@ return {
   config = function()
     require("lualine").setup({
       options = {
-        disabled_filetypes = {
-          statusline = { "neo-tree", "neo-tree-popup" },
-          winbar = { "neo-tree", "neo-tree-popup" },
-        },
+        globalstatus = true,
       },
       sections = {
         lualine_c = {
