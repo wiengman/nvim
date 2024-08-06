@@ -23,11 +23,11 @@ return {
       }
       --  keymaps
       vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.hover, keymap_opts)
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, keymap_opts)
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, keymap_opts)
-      vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, keymap_opts)
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, keymap_opts)
+      -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, keymap_opts)
+      -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
+      -- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, keymap_opts)
+      -- vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, keymap_opts)
+      -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, keymap_opts)
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
@@ -56,6 +56,31 @@ return {
                 },
               },
             },
+          })
+        end,
+        ["lua_ls"] = function()
+          lspconfig.lua_ls.setup({
+            on_init = function(client)
+              local path = client.workspace_folders[1].name
+              if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+                return
+              end
+
+              client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                runtime = {
+                  version = 'LuaJIT'
+                },
+                workspace = {
+                  checkThirdParty = false,
+                  library = {
+                    vim.env.VIMRUNTIME
+                  }
+                }
+              })
+            end,
+            settings = {
+              Lua = {}
+            }
           })
         end,
         ["clangd"] = function()
