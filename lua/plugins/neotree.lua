@@ -66,7 +66,7 @@ return {
 			filesystem = {
        window = {
          mappings = {
-           ["<C-P>"] = function(state)
+           ["<Leader>fg"] = function(state)
              local node = state.tree:get_node()
               local node_path = node.path
               if not vim.fn.isdirectory(node_path) ~= 0 then
