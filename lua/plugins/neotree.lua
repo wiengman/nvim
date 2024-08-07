@@ -26,19 +26,19 @@ return {
       default_component_configs = {
         file_size = {
           enabled = false,
-          required_width = 64,   -- min width of window required to show this column
+          required_width = 64, -- min width of window required to show this column
         },
         type = {
           enabled = false,
-          required_width = 122,   -- min width of window required to show this column
+          required_width = 122, -- min width of window required to show this column
         },
         last_modified = {
           enabled = false,
-          required_width = 88,   -- min width of window required to show this column
+          required_width = 88, -- min width of window required to show this column
         },
         created = {
           enabled = false,
-          required_width = 110,   -- min width of window required to show this column
+          required_width = 110, -- min width of window required to show this column
         },
       },
       event_handlers = {
@@ -75,6 +75,7 @@ return {
         position = "right",
       },
       filesystem = {
+        group_empty_dirs = true,
         window = {
           mappings = {
             ["<leader>fg"] = function(state)
