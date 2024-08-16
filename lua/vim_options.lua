@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 local options = vim.opt
 
 -- Tab control
