@@ -1,5 +1,9 @@
 vim.loader.enable()
 
+--leader
+vim.g.mapleader = " "
+
+
 local options = vim.opt
 
 -- Tab control
@@ -25,9 +29,6 @@ options.swapfile = false
 options.updatetime = 300
 
 vim.wo.wrap = false
-
---leader
-vim.g.mapleader = " "
 
 -- Yank to default clipboard
 options.clipboard:append("unnamedplus")

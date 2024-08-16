@@ -102,7 +102,7 @@ end
 return {
   {
     "nvim-telescope/telescope.nvim",
-    priority = 52,
+    event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local builtin = require("telescope.builtin")
@@ -115,6 +115,7 @@ return {
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",
+    event = "VeryLazy",
     config = function()
       require("telescope").setup({
         defaults = {

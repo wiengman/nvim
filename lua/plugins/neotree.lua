@@ -18,6 +18,7 @@ return {
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
+  event = "VeryLazy",
   config = function()
     vim.keymap.set({ "n", "i" }, "<C-n>", ":Neotree toggle right<CR>", {})
 
