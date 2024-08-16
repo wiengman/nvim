@@ -76,7 +76,7 @@ return {
         position = "right",
       },
       filesystem = {
-        group_empty_dirs = true,
+        scan_mode = "deep",
         window = {
           mappings = {
             ["<leader>fg"] = function(state)
@@ -99,6 +99,8 @@ return {
             end,
           },
         },
+
+        group_empty_dirs = true,
         use_libuv_file_watcher = true,
         filtered_items = {
           visible = true, -- when true, they will just be displayed differently than normal items
