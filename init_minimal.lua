@@ -7,9 +7,5 @@ require("lazy").setup(
     require("plugins.treesitter"),
     require("plugins.comment"),
   },
-  {
-    change_detection = {
-      notify = false,
-    }
-  }
+  require("lazy_options")
 )
