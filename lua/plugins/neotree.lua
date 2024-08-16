@@ -20,7 +20,7 @@ return {
   },
   event = "VeryLazy",
   config = function()
-    vim.keymap.set({ "n", "i" }, "<C-n>", ":Neotree toggle right<CR>", {})
+    vim.keymap.set({ "n", "i" }, "<C-n>", ":Neotree<CR>", {})
 
     require("neo-tree").setup({
       close_if_last_window = true,
