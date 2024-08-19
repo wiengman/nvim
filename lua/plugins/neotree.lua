@@ -79,7 +79,7 @@ return {
         scan_mode = "deep",
         window = {
           mappings = {
-            ["<leader>fg"] = function(state)
+            ["<C-f>"] = function(state)
               local directory_path = get_folder(state)
               require("telescope.builtin").live_grep({
                 prompt_title = "live grep in " .. directory_path,
