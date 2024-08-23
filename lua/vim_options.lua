@@ -48,3 +48,4 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave" }, {
   command = "set cmdheight=0"
 }) ]]
 
+vim.api.nvim_command('command! FilePathCp let @+=expand("%:p")')
