@@ -23,7 +23,7 @@ return {
     vim.keymap.set({ "n", "i" }, "<C-n>", ":Neotree<CR>", {})
 
     require("neo-tree").setup({
-      close_if_last_window = true,
+      close_if_last_window = false,
       default_component_configs = {
         file_size = {
           enabled = false,
@@ -41,20 +41,6 @@ return {
           enabled = false,
           required_width = 110, -- min width of window required to show this column
         },
-      },
-      event_handlers = {
-        --[[ {
-					event = "file_opened",
-					handler = function(_)
-						require("neo-tree.command").execute({ action = "close" })
-					end,
-				}, ]]
-        --[[ {
-					event = "neo_tree_buffer_leave",
-					handler = function(_)
-						require("neo-tree.command").execute({ action = "close" })
-					end,
-				}, ]]
       },
       git_status = {
         symbols = {
