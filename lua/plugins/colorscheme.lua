@@ -1,8 +1,8 @@
 return {
-	"EdenEast/nightfox.nvim",
-	priority = 1000,
-	config = function()
+  "EdenEast/nightfox.nvim",
+  priority = 1000,
+  config = function()
     require("nightfox").setup({})
-		vim.cmd("colorscheme carbonfox")
-	end,
+    vim.cmd("colorscheme nordfox")
+  end,
 }
