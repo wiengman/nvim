@@ -28,8 +28,8 @@ return {
 
     vim.keymap.set("n", "<leader>cc", "<Plug>(comment_toggle_linewise_current)", { desc = "[cc]omment" })
     vim.keymap.set("x", "<leader>cc", "<Plug>(comment_toggle_linewise_visual))", { desc = "[cc]omment (Visual)" })
-    vim.keymap.set("n", "<leader>cb", "<Plug>(comment_toggle_linewise_current)", { desc = "[c]omment [b]lockwise" })
-    vim.keymap.set("x", "<leader>cb", "<Plug>(comment_toggle_blockwise_current))",
+    vim.keymap.set("n", "<leader>cb", "<Plug>(comment_toggle_blockwise_current)", { desc = "[c]omment [b]lockwise" })
+    vim.keymap.set("x", "<leader>cb", "<Plug>(comment_toggle_blockwise_visual))",
       { desc = "[c]omment [b]lockwise (Visual)" })
 
     local comment_api = require('Comment.api')
