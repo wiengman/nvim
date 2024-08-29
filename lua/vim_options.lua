@@ -49,3 +49,29 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave" }, {
 }) ]]
 
 vim.api.nvim_command('command! FilePathCp let @+=expand("%:p")')
+
+
+-- Dump Neovim colors to terminal colors
+local function dump_colors()
+  print("background" .. " : " .. string.format("#%06x", vim.api.nvim_get_hl_by_name('Normal', true).background))
+  print("foreground" .. " : " .. string.format("#%06x", vim.api.nvim_get_hl_by_name('Normal', true).foreground))
+  print("cursor" .. " : " .. string.format(vim.api.nvim_get_hl_by_name('Cursor', true).foreground))
+  print("color0" .. " : " .. vim.g.terminal_color_0)
+  print("color1" .. " : " .. vim.g.terminal_color_1)
+  print("color2" .. " : " .. vim.g.terminal_color_2)
+  print("color3" .. " : " .. vim.g.terminal_color_3)
+  print("color4" .. " : " .. vim.g.terminal_color_4)
+  print("color5" .. " : " .. vim.g.terminal_color_5)
+  print("color6" .. " : " .. vim.g.terminal_color_6)
+  print("color7" .. " : " .. vim.g.terminal_color_7)
+  print("color8" .. " : " .. vim.g.terminal_color_8)
+  print("color9" .. " : " .. vim.g.terminal_color_9)
+  print("color10" .. " : " .. vim.g.terminal_color_10)
+  print("color11" .. " : " .. vim.g.terminal_color_11)
+  print("color12" .. " : " .. vim.g.terminal_color_12)
+  print("color13" .. " : " .. vim.g.terminal_color_13)
+  print("color14" .. " : " .. vim.g.terminal_color_14)
+  print("color15" .. " : " .. vim.g.terminal_color_15)
+end
+
+vim.api.nvim_create_user_command('DumpColors', dump_colors, {})
