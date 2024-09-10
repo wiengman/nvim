@@ -108,8 +108,7 @@ return {
               "configure.ac"
             ),
             capabilities = capabilities,
-            on_attach = function(client, _)
-              client.resolved_capabilities.document_highlight = false
+            on_attach = function(_, _)
               vim.keymap.set(
                 "n",
                 "<A-o>",
