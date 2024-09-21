@@ -27,7 +27,7 @@ return {
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
       vim.keymap.set("n", "gi", vim.lsp.buf.implementation, keymap_opts)
       vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, keymap_opts)
-      vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, keymap_opts)
+      vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, keymap_opts)
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
