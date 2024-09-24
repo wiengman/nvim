@@ -9,3 +9,4 @@
 * Add minimap
 * Add Snippet selection navigation
 * Make movement uniform accros plugins
+* Add stickybuf
