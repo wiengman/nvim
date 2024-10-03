@@ -1,5 +1,9 @@
 # Wlem's Neovim Configuration
 
+## Dependencies
+[Ripgrep](https://github.com/BurntSushi/ripgrep)
+[Fzf](https://github.com/junegunn/fzf)
+
 ## Todo:
 * Investigate swap outline to aerial 
 * Investigate swap telescope to snap (or/and fzf-lua)
