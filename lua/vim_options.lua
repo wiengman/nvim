@@ -24,6 +24,8 @@ options.smartcase = true
 -- Disable swapfile
 options.swapfile = false
 
+-- Set max items from popupmenu
+options.pumheight = 15
 
 -- set updatetime
 options.updatetime = 300

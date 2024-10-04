@@ -22,7 +22,7 @@ return {
         noremap = true,
       }
       --  keymaps
-      vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.hover, keymap_opts)
+      vim.keymap.set({ "n", "i" }, "<C-h>", vim.lsp.buf.hover, keymap_opts)
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, keymap_opts)
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
       vim.keymap.set("n", "gi", vim.lsp.buf.implementation, keymap_opts)
