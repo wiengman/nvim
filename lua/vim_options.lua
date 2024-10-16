@@ -52,7 +52,6 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave" }, {
 
 vim.api.nvim_command('command! FilePathCp let @+=expand("%:p")')
 
-
 -- Dump Neovim colors to terminal colors
 local function dump_colors()
   print("background" .. " : " .. string.format("#%06x", vim.api.nvim_get_hl_by_name('Normal', true).background))
