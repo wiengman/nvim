@@ -1,4 +1,5 @@
 return {
+  event = "BufReadPost",
   "petertriho/nvim-scrollbar",
   dependencies = {
     "lewis6991/gitsigns.nvim",

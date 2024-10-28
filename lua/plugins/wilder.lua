@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"romgrk/fzy-lua-native",
 	},
+  event = "CmdLineEnter",
 	config = function()
 		local wilder = require("wilder")
 		wilder.setup({

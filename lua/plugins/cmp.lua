@@ -10,7 +10,7 @@ return {
 		"rafamadriz/friendly-snippets",
 		"p00f/clangd_extensions.nvim",
 	},
-	event = "VeryLazy",
+	event = "InsertEnter",
 	config = function()
 		-- Set up nvim-cmp.
 		local cmp = require("cmp")
