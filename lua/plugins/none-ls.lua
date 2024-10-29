@@ -1,6 +1,6 @@
 return {
   "nvimtools/none-ls.nvim",
-  event = "VeryLazy",
+  event = "BufReadPost", -- Should probably only be loaded by js
   config = function()
     local null_ls = require("null-ls")
     null_ls.setup({

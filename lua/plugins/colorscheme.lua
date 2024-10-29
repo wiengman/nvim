@@ -4,7 +4,8 @@ return {
   config = function()
     require("nightfox").setup({})
     vim.cmd("colorscheme nordfox")
-    vim.api.nvim_set_hl(0, "Comment", { fg = "#ffeca5"})
+    -- Comment colors
+    vim.api.nvim_set_hl(0, "Comment", { fg = "#FFECA5" })
     vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
   end,
 }

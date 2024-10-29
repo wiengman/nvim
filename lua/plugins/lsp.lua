@@ -6,7 +6,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"p00f/clangd_extensions.nvim",
 		},
-		event = "VeryLazy",
+		event = "BufRead",
 		config = function()
 			require("mason").setup()
 			require("mason-lspconfig").setup({
@@ -15,6 +15,7 @@ return {
 					"rust_analyzer", -- rust
 					"clangd", -- c/c++
 					"taplo", -- toml
+          "wgsl_analyzer" -- wgsl
 				},
 				automatic_installation = true,
 			})
@@ -43,6 +44,11 @@ return {
 						capabilities = capabilities,
 					})
 				end,
+        ["wgsl_analyzer"] = function()
+          lspconfig.wgsl_analyzer.setup({
+            capabilities = capabilities,
+          })
+        end,
 				["rust_analyzer"] = function()
 					-- rust-analyzer will be setup by rustaceanvim
 					lspconfig.rust_analyzer.setup({

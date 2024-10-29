@@ -1,5 +1,6 @@
 return {
   "camspiers/snap",
+  event = "VimEnter",
   config = function()
     local snap = require("snap")
     local settings = {

@@ -4,7 +4,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
 	},
-  event = "VeryLazy",
+  event = "BufReadPost",
 	config = function()
 		require("aerial").setup({
 			close_automatic_events = {

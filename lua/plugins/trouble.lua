@@ -1,6 +1,6 @@
 return {
   "folke/trouble.nvim",
-  event = "VeryLazy",
+  event = "BufReadPost",
   config = function ()
     require("trouble").setup({})
   end
