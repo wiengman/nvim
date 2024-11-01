@@ -14,7 +14,6 @@ return {
   branch = "v3.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
@@ -63,29 +62,6 @@ return {
       },
       filesystem = {
         scan_mode = "deep",
-        window = {
-          mappings = {
-            ["<C-f>"] = function(state)
-              local directory_path = get_folder(state)
-              require("telescope.builtin").live_grep({
-                prompt_title = "live grep in " .. directory_path,
-                search_dirs = {
-                  directory_path
-                }
-              })
-            end,
-            ["<C-p>"] = function(state)
-              local directory_path = get_folder(state)
-              require("telescope.builtin").find_files({
-                prompt_title = "Find files in " .. directory_path,
-                search_dirs = {
-                  directory_path
-                }
-              })
-            end,
-          },
-        },
-
         group_empty_dirs = true,
         use_libuv_file_watcher = true,
         filtered_items = {
