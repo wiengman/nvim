@@ -30,6 +30,7 @@ return {
 		wilder.set_option(
 			"renderer",
 			wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
+        max_height=15,
 				highlighter = {
 					wilder.lua_fzy_highlighter(),
 				},
@@ -38,7 +39,7 @@ return {
 					accent = wilder.make_hl(
 						"WilderAccent",
 						"Pmenu",
-						{ { a = 1 }, { a = 1 }, { foreground = "#ee5396" } }
+						{ { a = 1 }, { a = 1 }, { foreground = "#ECB96F" } }
 					),
 				},
 				border = "rounded",
