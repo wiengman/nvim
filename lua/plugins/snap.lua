@@ -33,7 +33,7 @@ return {
     snap.map("<Leader>fg", function()
       snap.run({
         prompt = "File Grep>",
-        producer = limit(10000, ripgrep_vimgrep),
+        producer = limit(10000, ripgrep_vimgrep.args({"--ignore-case"})),
         select = select_vimgrep.select,
         multiselect = select_vimgrep.multiselect,
         views = { preview_vimgrep },
