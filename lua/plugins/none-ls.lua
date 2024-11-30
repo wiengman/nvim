@@ -1,5 +1,8 @@
 return {
   "nvimtools/none-ls.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim"
+  },
   event = "BufReadPost", -- Should probably only be loaded by js
   config = function()
     local null_ls = require("null-ls")
