@@ -78,7 +78,7 @@ return {
         -- optionally override the oil buffers window title with custom function: fun(winid: integer): string
         get_win_title = nil,
         -- preview_split: Split direction: "auto", "left", "right", "above", "below".
-        preview_split = "auto",
+        preview_split = "right",
         -- This is the config that will be passed to nvim_open_win.
         -- Change values here to customize the layout
         override = function(conf)
@@ -101,5 +101,15 @@ return {
     })
 
     vim.keymap.set("n", "<C-e>", "<cmd>Oil --float<CR>", { desc = "Oil" })
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "OilEnter",
+      callback = vim.schedule_wrap(function(args)
+        local oil = require("oil")
+        if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
+          oil.open_preview()
+        end
+      end),
+    })
   end,
 }
