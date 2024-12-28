@@ -1,149 +1,159 @@
-return {
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"p00f/clangd_extensions.nvim",
-		},
-		event = "BufRead",
-		config = function()
-			require("mason").setup()
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
-			})
-			local keymap_opts = {
-				noremap = true,
-			}
-			--  keymaps
-			vim.keymap.set({ "n", "i" }, "<C-h>", vim.lsp.buf.hover, keymap_opts)
-			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, keymap_opts)
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
-			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, keymap_opts)
-			vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, keymap_opts)
-			vim.keymap.set("n", "gr", vim.lsp.buf.references, keymap_opts)
-			vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, keymap_opts)
-			vim.keymap.set("n", "<C-8>", function()
-				vim.diagnostic.goto_prev({ wrap = true })
-			end, keymap_opts)
-			vim.keymap.set("n", "<C-9>", function()
-				vim.diagnostic.goto_next({ wrap = true })
-			end, keymap_opts)
+local setup_lsp = function(lsp, opts)
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  opts.capabilities = capabilities or {}
+  require("lspconfig")[lsp].setup(opts)
+end
 
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			require("mason-lspconfig").setup_handlers({
-				function(server)
-					lspconfig[server].setup({
-						capabilities = capabilities,
-					})
-				end,
-        ["wgsl_analyzer"] = function()
-          lspconfig.wgsl_analyzer.setup({
-            capabilities = capabilities,
+return {
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "p00f/clangd_extensions.nvim",
+    },
+    event = "VeryLazy",
+    config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        automatic_installation = true,
+      })
+
+      local map = function(mode, keys, func, opts)
+        opts = opts or {}
+        opts.noremap = true
+        vim.keymap.set(mode, keys, func, opts)
+      end
+
+      --  keymaps
+      map({ "n", "i" }, "<C-h>", vim.lsp.buf.hover)
+      map("n", "ca", vim.lsp.buf.code_action)
+
+      map("n", "gi", vim.lsp.buf.implementation)
+      map("n", "gd", vim.lsp.buf.definition)
+      map("n", "gD", vim.lsp.buf.declaration)
+      map("n", "gt", vim.lsp.buf.type_definition)
+      map("n", "gr", vim.lsp.buf.references)
+
+      map("n", "<C-8>", function() vim.diagnostic.goto_prev({ wrap = true }) end)
+      map("n", "<C-9>", function() vim.diagnostic.goto_next({ wrap = true }) end)
+
+      local lspconfig = require("lspconfig")
+
+      setup_lsp("rust_analyzer", {
+        on_attach = function(_, bufnr)
+          if vim.fn.has("nvim-0.10") == 1 then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+        end,
+        settings = {
+          ["rust-analyzer"] = {
+            diagnostics = {
+              enabled = true,
+            },
+            checkOnSave = {
+              command = "clippy",
+            },
+          },
+        },
+      })
+
+      -- Java
+      setup_lsp("jdtls", {})
+
+      -- Python
+      setup_lsp("pylsp", {})
+
+      -- Bash
+      setup_lsp("bashls", {})
+
+      -- Lua
+      setup_lsp("lua_ls", {
+        on_init = function(client)
+          local path = client.workspace_folders[1].name
+          if
+              vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc")
+          then
+            return
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+            runtime = {
+              version = "LuaJIT",
+            },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+              },
+            },
           })
         end,
-				["rust_analyzer"] = function()
-					-- rust-analyzer will be setup by rustaceanvim
-					lspconfig.rust_analyzer.setup({
-						capabilities = capabilities,
-						on_attach = function(_, bufnr)
-							if vim.fn.has("nvim-0.10") == 1 then
-								vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-							end
-						end,
-						settings = {
-							["rust-analyzer"] = {
-								diagnostics = {
-									enabled = true,
-								},
-								checkOnSave = {
-									command = "clippy",
-								},
-							},
-						},
-					})
-				end,
-				["lua_ls"] = function()
-					lspconfig.lua_ls.setup({
-						on_init = function(client)
-							local path = client.workspace_folders[1].name
-							if
-								vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc")
-							then
-								return
-							end
+        settings = {
+          Lua = {},
+        },
+      })
 
-							client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-								runtime = {
-									version = "LuaJIT",
-								},
-								workspace = {
-									checkThirdParty = false,
-									library = {
-										vim.env.VIMRUNTIME,
-									},
-								},
-							})
-						end,
-						settings = {
-							Lua = {},
-						},
-					})
-				end,
-				["clangd"] = function()
-					lspconfig.clangd.setup({
-						cmd = {
-							"clangd",
-							"-j=2",
-							"--all-scopes-completion",
-							"--background-index",
-							"--clang-tidy",
-							"--function-arg-placeholders",
-							"--enable-config",
-							"--pch-storage=memory", -- might cause oom
-							"--header-insertion=never",
-							"--pretty",
-							-- "--malloc-trim", -- Not supported on windows?
-						},
-						root_dir = lspconfig.util.root_pattern(
-							".git",
-							"compile_commands.json",
-							".clangd",
-							".clang-tidy",
-							".clang-format",
-							"compile_flags.txt",
-							"configure.ac"
-						),
-						capabilities = capabilities,
-						on_attach = function(_, _)
-							vim.keymap.set(
-								"n",
-								"<A-o>",
-								require("clangd_extensions.switch_source_header").switch_source_header,
-								keymap_opts
-							)
+      -- glsl
+      -- c/c++
+      setup_lsp("clangd", {
+        cmd = {
+          "clangd",
+          "-j=6",
+          "--all-scopes-completion",
+          "--background-index",
+          "--clang-tidy",
+          "--function-arg-placeholders",
+          "--enable-config",
+          "--recovery-ast",
+          "--pch-storage=disk",
+          "--header-insertion=never",
+          "--pretty",
+        },
+        root_dir = lspconfig.util.root_pattern(
+          ".git",
+          "compile_commands.json",
+          ".clangd",
+          ".clang-tidy",
+          ".clang-format",
+          "compile_flags.txt",
+          "configure.ac"
+        ),
+        on_attach = function(_, _)
+          map("n", "<A-o>", require("clangd_extensions.switch_source_header").switch_source_header)
+          map("n", "gs", require("clangd_extensions.symbol_info").show_symbol_info)
+          map("n", "gh", require("clangd_extensions.type_hierarchy").show_hierarchy)
 
-							vim.keymap.set(
-								"n",
-								"gs",
-								require("clangd_extensions.symbol_info").show_symbol_info,
-								keymap_opts
-							)
+          require("clangd_extensions.inlay_hints").setup_autocmd()
+          require("clangd_extensions.inlay_hints").set_inlay_hints()
+        end,
+      })
 
-							vim.keymap.set(
-								"n",
-								"gh",
-								require("clangd_extensions.type_hierarchy").show_hierarchy,
-								keymap_opts
-							)
+      -- cmake/make
+      setup_lsp("cmake", {})
 
-							require("clangd_extensions.inlay_hints").setup_autocmd()
-							require("clangd_extensions.inlay_hints").set_inlay_hints()
-						end,
-					})
-				end,
-			})
-		end,
-	},
+      -- json
+      setup_lsp("jsonls", {})
+
+      -- markdown
+      setup_lsp("marksman", {})
+
+      -- asm?
+      setup_lsp("asm_lsp", {})
+
+      -- css/scss
+      setup_lsp("cssls", {})
+
+      -- hyprls
+      setup_lsp("hyprls", {})
+
+      -- glslls
+      setup_lsp("glsl_analyzer", {})
+
+    end,
+
+    vim.lsp.set_log_level("off")
+  },
 }
