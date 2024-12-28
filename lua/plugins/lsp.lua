@@ -10,13 +10,6 @@ return {
 		config = function()
 			require("mason").setup()
 			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"lua_ls", -- lua
-					"rust_analyzer", -- rust
-					"clangd", -- c/c++
-					"taplo", -- toml
-          "wgsl_analyzer" -- wgsl
-				},
 				automatic_installation = true,
 			})
 			local keymap_opts = {

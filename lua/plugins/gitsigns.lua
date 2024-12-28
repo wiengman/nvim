@@ -1,37 +1,70 @@
-local function toggle_inline_diff(gitsigns)
-  gitsigns.toggle_linehl()
-  gitsigns.toggle_word_diff()
-  gitsigns.toggle_deleted()
-  gitsigns.toggle_numhl()
-end
-
 return {
   "lewis6991/gitsigns.nvim",
   event = "BufReadPost",
   config = function()
     local gitsigns = require('gitsigns')
     gitsigns.setup({
+      signs = {
+        add          = { text = '+' },
+        change       = { text = '+' },
+        delete       = { text = '-' },
+        topdelete    = { text = '‾' },
+        changedelete = { text = '~' },
+        untracked    = { text = '┆' },
+      },
+      signs_staged = {
+        add          = { text = '+' },
+        change       = { text = '+' },
+        delete       = { text = '-' },
+        topdelete    = { text = '‾' },
+        changedelete = { text = '~' },
+        untracked    = { text = '┆' },
+      },
       current_line_blame_opts = {
         delay = 100,
       },
-      current_line_blame = true,
-      max_file_length = 40000, -- Default value, just keep here in case
+      on_attach = function(bufnr)
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
 
+        -- Navigation
+        map('n', ']c', function()
+          if vim.wo.diff then
+            vim.cmd.normal({ ']c', bang = true })
+          else
+            gitsigns.nav_hunk('next')
+          end
+        end)
+
+        map('n', '[c', function()
+          if vim.wo.diff then
+            vim.cmd.normal({ '[c', bang = true })
+          else
+            gitsigns.nav_hunk('prev')
+          end
+        end)
+
+        -- Keymaps
+        map('n', '<leader>hs', gitsigns.stage_hunk)
+        map('n', '<leader>hu', gitsigns.undo_stage_hunk)
+        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('n', '<leader>hp', gitsigns.preview_hunk)
+        map('n', '<leader>hS', gitsigns.stage_buffer)
+        map('n', '<leader>hU', gitsigns.reset_buffer)
+        map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end)
+
+        map('n', '<leader>hd', gitsigns.diffthis)
+        map('n', '<leader>hD', function() gitsigns.diffthis("~") end)
+
+        map('n', '<leader>td', gitsigns.toggle_deleted)
+        map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
+
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+      end,
     })
-
-    -- Keymaps
-    vim.keymap.set('n', '<leader>gD', gitsigns.diffthis)
-    vim.keymap.set('n', '<leader>gd', function() toggle_inline_diff(gitsigns) end)
-    vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk)
-    vim.keymap.set('n', '<leader>gb', function() gitsigns.blame_line { full = true } end)
-    vim.keymap.set('n', '<leader>gs', gitsigns.stage_hunk)
-    vim.keymap.set('n', '<leader>gS', gitsigns.stage_buffer)
-    vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk)
-    vim.keymap.set('n', '<leader>gR', gitsigns.reset_hunk)
-    vim.keymap.set('n', '<leader>gu', gitsigns.reset_hunk)
-
-    -- vim.keymap.set('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-    -- vim.keymap.set('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-    -- vim.keymap.set('n', '<leader>hD', function() gitsigns.diffthis('~') end)
+    vim.keymap.set("n", "gs", vim.cmd.Git)
   end
 }
