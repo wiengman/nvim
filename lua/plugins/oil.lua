@@ -101,7 +101,7 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<C-e>", "<cmd>Oil --float<CR>", { desc = "Oil" })
+    vim.keymap.set("n", "<leader>e", "<cmd>Oil --float<CR>", { desc = "Oil" })
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "OilEnter",
