@@ -152,6 +152,9 @@ return {
       -- glslls
       setup_lsp("glsl_analyzer", {})
 
+      -- toml
+      setup_lsp("taplo", {})
+
     end,
 
     vim.lsp.set_log_level("off")
