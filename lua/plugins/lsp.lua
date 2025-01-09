@@ -112,6 +112,9 @@ return {
           "--header-insertion=never",
           "--pretty",
         },
+        init_options = {
+          fallbackFlags = {"-std=c++20"}
+        },
         root_dir = lspconfig.util.root_pattern(
           ".git",
           "compile_commands.json",
