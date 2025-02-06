@@ -37,8 +37,8 @@ return {
       map("n", "gt", vim.lsp.buf.type_definition)
       map("n", "gr", vim.lsp.buf.references)
 
-      map("n", "<C-n>d", function() vim.diagnostic.goto_prev({ wrap = true }) end)
-      map("n", "<C-m>d", function() vim.diagnostic.goto_next({ wrap = true }) end)
+      -- map("n", "<C-n>d", function() vim.diagnostic.goto_prev({ wrap = true }) end)
+      -- map("n", "<C-m>d", function() vim.diagnostic.goto_next({ wrap = true }) end)
 
       local lspconfig = require("lspconfig")
 
