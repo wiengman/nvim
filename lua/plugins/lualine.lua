@@ -1,31 +1,60 @@
-local unsaved_buffers = function()
-  local unsaved_count = 0
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_get_option(buf, "modified") then
-      unsaved_count = unsaved_count + 1
-    end
-  end
-  if unsaved_count > 0 then
-    return string.format("%d Unsaved Buffers", unsaved_count)
-  else
-    return ""
-  end
+local gitsigns_status = function()
+	local gitsigns = vim.b.gitsigns_status_dict
+	if gitsigns then
+		return {
+			added = gitsigns.added,
+			modified = gitsigns.changed,
+			removed = gitsigns.removed,
+		}
+	end
 end
 
 return {
-  "nvim-lualine/lualine.nvim",
-  event = "VimEnter",
-  config = function()
-    require("lualine").setup({
-      options = {
-        globalstatus = true,
-      },
-      sections = {
-        lualine_c = {
-          "filename",
-          unsaved_buffers,
-        },
-      },
-    })
-  end,
+	"nvim-lualine/lualine.nvim",
+	event = "VimEnter",
+	config = function()
+		local diagnostics = {
+			"diagnostics",
+			sources = { "nvim_diagnostic" },
+			sections = { "error", "warn", "info", "hint" },
+			symbols = {
+				error = " ",
+				warn = " ",
+				info = " ",
+				hint = " ",
+			},
+			colored = true,
+			always_visible = false,
+		}
+
+		local diff = {
+			"diff",
+			source = gitsigns_status,
+			symbols = {
+				added = " ",
+				modified = " ",
+				removed = " ",
+			},
+		}
+
+		local filetype = {
+			"filetype",
+			icon_only = true,
+		}
+		require("lualine").setup({
+			options = {
+				globalstatus = true,
+				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
+			},
+			sections = {
+				lualine_a = { "mode" },
+				lualine_b = {},
+				lualine_c = { "filename", "searchcount" },
+				lualine_x = { "branch", diff, diagnostics, filetype },
+				lualine_y = {},
+				lualine_z = {},
+			},
+		})
+	end,
 }
