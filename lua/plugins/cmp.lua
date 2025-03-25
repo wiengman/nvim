@@ -28,8 +28,7 @@ return {
 			},
 			snippet = {
 				expand = function(args)
-					require("luasnip").lsp_expand(args.body)
-					-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+					vim.snippet.expand(args.body)
 				end,
 			},
 
@@ -50,10 +49,9 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 			}),
 			sources = cmp.config.sources({
-				{ name = "nvim_lsp", group_index = 1 },
-				{ name = "luasnip", group_index = 1 },
-				{ name = "path", group_index = 1 },
-				{ name = "buffer", group_index = 2 },
+				{ name = "nvim_lsp" },
+				{ name = "buffer" },
+				{ name = "path" },
 			}),
 			require("luasnip.loaders.from_vscode").lazy_load(),
 		})
