@@ -44,6 +44,7 @@ return {
 				vim.diagnostic.goto_next({ wrap = true })
 			end)
 
+	    vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 			-- Set LSP priority
 			vim.lsp.handlers["textDocument/publishDiagnostics"] =
 				vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -52,11 +53,6 @@ return {
 			local lspconfig = require("lspconfig")
 
 			setup_lsp("rust_analyzer", {
-				on_attach = function(_, bufnr)
-					if vim.fn.has("nvim-0.10") == 1 then
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end
-				end,
 				settings = {
 					["rust-analyzer"] = {
 						diagnostics = {
@@ -74,9 +70,6 @@ return {
 
 			-- Python
 			setup_lsp("pylsp", {})
-
-			-- Bash
-			setup_lsp("bashls", {})
 
 			-- Lua
 			setup_lsp("lua_ls", {
@@ -103,7 +96,6 @@ return {
 				},
 			})
 
-			-- glsl
 			-- c/c++
 			setup_lsp("clangd", {
 				cmd = {
@@ -131,13 +123,11 @@ return {
 					"compile_flags.txt",
 					"configure.ac"
 				),
-				on_attach = function(_, _)
+				on_attach = function(_, bufnr)
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 					map("n", "<A-o>", require("clangd_extensions.switch_source_header").switch_source_header)
 					map("n", "gs", require("clangd_extensions.symbol_info").show_symbol_info)
 					map("n", "gh", require("clangd_extensions.type_hierarchy").show_hierarchy)
-
-					require("clangd_extensions.inlay_hints").setup_autocmd()
-					require("clangd_extensions.inlay_hints").set_inlay_hints()
 				end,
 			})
 
@@ -149,18 +139,6 @@ return {
 
 			-- markdown
 			setup_lsp("marksman", {})
-
-			-- asm?
-			setup_lsp("asm_lsp", {})
-
-			-- css/scss
-			setup_lsp("cssls", {})
-
-			-- hyprls
-			setup_lsp("hyprls", {})
-
-			-- glslls
-			setup_lsp("glsl_analyzer", {})
 
 			-- toml
 			setup_lsp("taplo", {})
