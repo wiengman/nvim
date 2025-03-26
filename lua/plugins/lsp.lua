@@ -28,7 +28,7 @@ return {
 			end
 
 			--  keymaps
-			map({ "n", "i" }, "<C-h>", vim.lsp.buf.hover)
+			map({ "n" }, "<C-h>", vim.lsp.buf.hover)
 			map("n", "ca", vim.lsp.buf.code_action)
 
 			map("n", "gi", vim.lsp.buf.implementation)
@@ -44,7 +44,7 @@ return {
 				vim.diagnostic.goto_next({ wrap = true })
 			end)
 
-	    vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+			vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 			-- Set LSP priority
 			vim.lsp.handlers["textDocument/publishDiagnostics"] =
 				vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -108,6 +108,7 @@ return {
 					"--enable-config",
 					"--recovery-ast",
 					"--pch-storage=disk",
+					"--header-insertion-decorators=false",
 					"--header-insertion=never",
 					"--pretty",
 				},

@@ -37,6 +37,12 @@ options.clipboard:append("unnamedplus")
 vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { noremap = true })
 vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
 
+-- Add extra keymaps for insert navigation
+vim.keymap.set('i', '<C-h>', '<left>', { noremap = true })
+vim.keymap.set('i', '<C-j>', '<down>', { noremap = true })
+vim.keymap.set('i', '<C-k>', '<up>', { noremap = true })
+vim.keymap.set('i', '<C-l>', '<right>', { noremap = true })
+
 vim.api.nvim_command('command! FilePathCp let @+=expand("%:p")')
 
 -- Dump Neovim colors to terminal colors

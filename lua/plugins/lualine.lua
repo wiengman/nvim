@@ -50,7 +50,7 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = {},
-				lualine_c = { "filename", "searchcount" },
+				lualine_c = { "filename"},
 				lualine_x = { "branch", diff, diagnostics, filetype },
 				lualine_y = {},
 				lualine_z = {},
