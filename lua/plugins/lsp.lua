@@ -12,7 +12,6 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"p00f/clangd_extensions.nvim",
 		},
 		event = "VeryLazy",
 		config = function()
@@ -126,9 +125,24 @@ return {
 				),
 				on_attach = function(_, bufnr)
 					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					map("n", "<A-o>", require("clangd_extensions.switch_source_header").switch_source_header)
-					map("n", "gs", require("clangd_extensions.symbol_info").show_symbol_info)
-					map("n", "gh", require("clangd_extensions.type_hierarchy").show_hierarchy)
+
+					local function handler(_err, uri)
+						if not uri or uri == "" then
+							vim.api.nvim_echo({ { "Corresponding file cannot be determined" } }, false, {})
+							return
+						end
+						local file_name = vim.uri_to_fname(uri)
+						vim.api.nvim_cmd({
+							cmd = "edit",
+							args = { file_name },
+						}, {})
+					end
+
+					map("n", "<A-o>", function()
+						vim.lsp.buf_request(0, "textDocument/switchSourceHeader", {
+							uri = vim.uri_from_bufnr(0),
+						}, handler)
+					end, {})
 				end,
 			})
 

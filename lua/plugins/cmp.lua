@@ -6,7 +6,6 @@ return {
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-cmdline",
 		"rafamadriz/friendly-snippets",
-		"p00f/clangd_extensions.nvim",
 	},
 	event = "InsertEnter",
 	config = function()
@@ -18,7 +17,6 @@ return {
 					cmp.config.compare.exact,
 					cmp.config.compare.offset,
 					cmp.config.compare.recently_used,
-					require("clangd_extensions.cmp_scores"),
 					cmp.config.compare.kind,
 					cmp.config.compare.sort_text,
 					cmp.config.compare.length,
@@ -53,13 +51,13 @@ return {
 				{ name = "path" },
 			}),
 		})
-    -- `/` cmdline setup.
-    cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' }
-      }
-    })
+		-- `/` cmdline setup.
+		cmp.setup.cmdline("/", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = {
+				{ name = "buffer" },
+			},
+		})
 
 		cmp.setup.cmdline(":", {
 			mapping = cmp.mapping.preset.cmdline(),
