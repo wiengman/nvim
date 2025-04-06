@@ -101,6 +101,6 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<leader>e", "<cmd>Oil --float<CR>", { desc = "Oil" })
+    vim.keymap.set("n", "<leader>e", "<cmd>Oil<CR>", { desc = "Oil" })
   end,
 }
