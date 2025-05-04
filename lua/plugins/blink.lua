@@ -19,9 +19,9 @@ return {
 			["<C-K>"] = { "select_prev", "fallback" },
 			["<Esc>"] = { "cancel", "fallback" },
 			["<C-space>"] = { "accept", "fallback" },
+			["<CR>"] = { "accept", "fallback" },
 		},
 		appearance = {
-			use_nvim_cmp_as_default = true,
 			nerd_font_variant = "mono",
 		},
 		sources = {
@@ -34,11 +34,16 @@ return {
 			menu = {
 				auto_show = true,
 				draw = {
+					treesitter = { "lsp" },
 					columns = {
 						{ "label", "label_description", gap = 1 },
 						{ "kind_icon", gap = 1 },
 					},
 				},
+			},
+			documentation = {
+				auto_show = true,
+				auto_show_delay_ms = 200,
 			},
 		},
 		cmdline = {
