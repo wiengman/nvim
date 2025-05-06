@@ -1,6 +1,6 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
-  event = "BufReadPost",
+  event = "VeryLazy",
   config = function()
     require("ibl").setup()
   end

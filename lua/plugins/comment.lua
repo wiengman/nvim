@@ -1,6 +1,6 @@
 return {
   "numToStr/Comment.nvim",
-  event = "BufReadPost",
+  event = "VeryLazy",
   config = function()
     require("Comment").setup({
       toggler = {
@@ -20,9 +20,9 @@ return {
       },
       mappings = {
         ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
-        basic = true,
+        basic = false,
         ---Extra mapping; `gco`, `gcO`, `gcA`
-        extra = true,
+        extra = false,
       },
     })
 

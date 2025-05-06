@@ -1,18 +1,10 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  event = "BufEnter",
+  event = "VeryLazy",
   config = function()
     require("nvim-treesitter.configs").setup({
-      ensure_installed = {
-        "lua",
-        "vim",
-        "c",
-        "cpp",
-        "rust",
-        "markdown",
-        "markdown_inline",
-      },
+      ensure_installed = {},
       auto_install = true,
       highlight = { enable = true },
       indent = { enable = true },

@@ -1,7 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   dependencies = { "akinsho/git-conflict.nvim" },
-  event = "BufReadPost",
+  event = "VeryLazy",
   config = function()
     local gc = require("git-conflict")
     gc.setup({})

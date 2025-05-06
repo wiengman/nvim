@@ -3,7 +3,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim"
   },
-  event = "BufReadPost", -- Should probably only be loaded by js
+  event = "VeryLazy", -- Should probably only be loaded by js
   config = function()
     local null_ls = require("null-ls")
     null_ls.setup({
