@@ -13,26 +13,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-		-- if client:supports_method("textDocument/completion") then
-		-- 	vim.lsp.completion.enable(true, client.id, args.buf, {
-		-- 		autotrigger = true,
-		-- 		convert = function(item)
-		-- 			return { abbr = item.label:gsub("%b()", "") }
-		-- 		end,
-		-- 	})
-		-- end
-
 		if client:supports_method("textDocument/inlayHint") then
 			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
 		end
-
-		-- Unset 'formatexpr'
-		-- vim.bo[args.buf].formatexpr = nil
-		-- Unset 'omnifunc'
-		-- vim.bo[args.buf].omnifunc = nil
-
-		-- Unmap K
-		-- vim.keymap.del("n", "K", { buffer = args.buf })
 
 		-- KEYMAPS
 		local opts = { buffer = args.buf, silent = true }
@@ -55,6 +38,62 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.diagnostic.jump({ count = 1, float = true })
 		end, opts)
 
+		vim.api.nvim_create_user_command("LspStart", function(info)
+			if vim.lsp.config[info.args] == nil then
+				vim.notify(("Invalid server name '%s'"):format(info.args))
+				return
+			end
+			vim.lsp.start(vim.lsp.config[info.args])
+		end, { nargs = "?" })
+
+		vim.api.nvim_create_user_command("LspStop", function()
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
+			if next(clients) == nil then
+				return
+			end
+			vim.lsp.stop_client(clients[1].id)
+		end, {})
+
+		vim.api.nvim_create_user_command("LspRestart", function()
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
+			if next(clients) == nil then
+				return
+			end
+			local name = clients[1].name
+			vim.lsp.stop_client(clients[1].id)
+			local timer = vim.uv.new_timer()
+			timer:start(
+				100,
+				0,
+				vim.schedule_wrap(function()
+					vim.lsp.start(vim.lsp.config[name])
+				end)
+			)
+		end, {})
+
+		vim.api.nvim_create_user_command("LspEnable", function(info)
+			if info.args == nil then
+				vim.notify("Usage: :LspEnable <LSP>")
+			end
+			if vim.lsp.config[info.args] == nil then
+				vim.notify("Configuration not found")
+				return
+			end
+			vim.lsp.enable(info.args)
+			vim.lsp.start(vim.lsp.config[info.args])
+		end, { nargs = "?" })
+
+		vim.api.nvim_create_user_command("LspDisable", function()
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
+			if next(clients) == nil then
+				return
+			end
+			local name = clients[1].name
+			vim.lsp.stop_client(clients[1].id)
+			vim.lsp.enable(name, false)
+		end, {})
+
+		return
 	end,
 })
 vim.lsp.enable({ "rust_analyzer", "clangd", "luals" })

@@ -1,11 +1,3 @@
--- 			mapping = cmp.mapping.preset.insert({
--- 				["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
--- 				["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
--- 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
--- 				["<C-f>"] = cmp.mapping.scroll_docs(4),
--- 				["<C-Space>"] = cmp.mapping.complete(),
--- 				["<C-e>"] = cmp.mapping.abort(),
--- 				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 return {
 	"saghen/blink.cmp",
 	version = "1.*",
@@ -17,7 +9,7 @@ return {
 			["<S-Tab>"] = { "select_prev", "fallback" },
 			["<C-J>"] = { "select_next", "fallback" },
 			["<C-K>"] = { "select_prev", "fallback" },
-			["<Esc>"] = { "cancel", "fallback" },
+			["<C-c>"] = { "cancel", "fallback" },
 			["<C-space>"] = { "accept", "fallback" },
 			["<CR>"] = { "accept", "fallback" },
 		},

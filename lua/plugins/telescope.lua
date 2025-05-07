@@ -15,11 +15,6 @@ return {
 	},
 	event = "VimEnter",
 	config = function()
-		-- Start of telescope
-		-- Find files + directory filter
-		-- File grep
-		-- Find buffers
-		-- recently opened files
 		local ts = require("telescope")
 		local builtin = require("telescope.builtin")
 		local actions = require("telescope.actions")

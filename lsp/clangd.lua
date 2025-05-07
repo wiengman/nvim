@@ -39,11 +39,11 @@ return {
 		".clangd",
 		"compile_commands.json",
 	},
-	on_attach = function()
-		vim.api.nvim_buf_create_user_command(0, "LspClangdSwitchSourceHeader", function()
-			switch_source_header(0)
+	on_attach = function(args)
+		vim.api.nvim_buf_create_user_command(0, "ClangdSwitchSourceHeader", function()
+			switch_source_header()
 		end, { desc = "Switch between source/header" })
 
-    -- bind key to map
+		vim.keymap.set("n", "<A-o>", switch_source_header, { bufnr = args.bufnr, silent = true })
 	end,
 }
