@@ -4,7 +4,11 @@ local map = function(mode, keys, func, opts)
 	vim.keymap.set(mode, keys, func, opts)
 end
 
-vim.diagnostic.config({ virtual_text = true, severity_sort = true })
+vim.diagnostic.config({
+  virtual_text = true,
+  severity_sort = true,
+  signs = false
+})
 
 local group = vim.api.nvim_create_augroup("LspMappings", { clear = true })
 vim.api.nvim_create_autocmd("LspAttach", {
