@@ -5,9 +5,20 @@ local map = function(mode, keys, func, opts)
 end
 
 vim.diagnostic.config({
-  virtual_text = true,
-  severity_sort = true,
-  signs = false
+	virtual_text = {
+		prefix = function(diagnostic)
+			local icons = {
+				[vim.diagnostic.severity.ERROR] = "",
+				[vim.diagnostic.severity.WARN] = "",
+				[vim.diagnostic.severity.INFO] = "󰋽",
+				[vim.diagnostic.severity.HINT] = "󰤱",
+			}
+			return icons[diagnostic.severity] or ""
+		end,
+		spacing = 2,
+	},
+	severity_sort = true,
+	signs = false,
 })
 
 local group = vim.api.nvim_create_augroup("LspMappings", { clear = true })
@@ -15,7 +26,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = group,
 	callback = function(args)
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 		if client:supports_method("textDocument/inlayHint") then
 			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
@@ -34,6 +44,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "gD", vim.lsp.buf.declaration, opts)
 		map("n", "gt", vim.lsp.buf.type_definition, opts)
 		map("n", "gr", vim.lsp.buf.references, opts)
+		map("n", "<leader>fm", vim.lsp.buf.format, opts)
 
 		map("n", "<C-p>d", function()
 			vim.diagnostic.jump({ count = -1, float = true })

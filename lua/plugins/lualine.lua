@@ -18,10 +18,10 @@ return {
 			sources = { "nvim_diagnostic" },
 			sections = { "error", "warn", "info", "hint" },
 			symbols = {
-				error = " ",
-				warn = " ",
-				info = " ",
-				hint = " ",
+				error = " ",
+				warn = " ",
+				info = "󰋽 ",
+				hint = "󰤱 ",
 			},
 			colored = true,
 			always_visible = false,
@@ -40,7 +40,21 @@ return {
 		local filetype = {
 			"filetype",
 			icon_only = true,
+			padding = { left = 2, right = 0 },
 		}
+
+		local lsp_status = {
+			"lsp_status",
+			icon = "",
+			ignore_lsp = {
+				"null-ls",
+			},
+		}
+		local filename = {
+			"filename",
+			padding = { left = 0, right = 1 },
+		}
+
 		require("lualine").setup({
 			options = {
 				globalstatus = true,
@@ -50,8 +64,8 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = {},
-				lualine_c = { "filename"},
-				lualine_x = { "branch", diff, diagnostics, filetype },
+				lualine_c = { filetype, filename, diagnostics, lsp_status, "os.date('%X')" },
+				lualine_x = { diff, "branch" },
 				lualine_y = {},
 				lualine_z = {},
 			},

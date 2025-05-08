@@ -4,20 +4,11 @@ return {
   config = function()
     require("oil").setup({
       default_file_explorer = true,
-      -- Id is automatically added at the beginning, and name at the end
-      -- See :help oil-columns
       columns = {
         "icon",
-        -- "type"
       },
       -- watch for changes outside of the system
       watch_for_changes = true,
-      -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-      -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
-      -- Additionally, if it is a string that matches "actions.<name>",
-      -- it will use the mapping at require("oil.actions").<name>
-      -- Set to `false` to remove a keymap
-      -- See :help oil-actions for a list of all available actions
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
