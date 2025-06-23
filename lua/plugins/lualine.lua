@@ -52,7 +52,6 @@ return {
 		}
 		local filename = {
 			"filename",
-			padding = { left = 0, right = 1 },
 		}
 
 		require("lualine").setup({
@@ -64,7 +63,7 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = {},
-				lualine_c = { filetype, filename, diagnostics, lsp_status, "os.date('%X')" },
+				lualine_c = { filetype, filename, "location", "progress", diagnostics, lsp_status, "os.date('%X')" },
 				lualine_x = { diff, "branch" },
 				lualine_y = {},
 				lualine_z = {},
