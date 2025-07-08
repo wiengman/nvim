@@ -24,21 +24,15 @@ return {
 		"--header-insertion=never",
 		"--pretty",
 	},
-	capabilities = {
-		textDocument = {
-			completion = {
-				editsNearCursor = true,
-			},
-		},
+	init_options = {
+		fallbackFlags = { "-std=c++23" },
 	},
-	-- init_options = {
-	-- 	fallbackFlags = { "-std=c++20" },
-	-- },
 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 	root_markers = {
 		".clangd",
 		"compile_commands.json",
 	},
+
 	on_attach = function(args)
 		vim.api.nvim_buf_create_user_command(0, "ClangdSwitchSourceHeader", function()
 			switch_source_header()
