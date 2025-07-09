@@ -22,7 +22,7 @@ return {
 			defaults = {
 				vimgrep_arguments = {
 					"rg",
-					"--ignore",
+					"--no-ignore",
 					"--hidden",
 					"--smart-case",
 					"--column",
@@ -68,6 +68,7 @@ return {
 		vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
 		vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 		vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "Telescope help tags" })
+		vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume" })
 		vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Git status" })
 	end,
 }
