@@ -33,6 +33,8 @@ return {
 				layout_config = {
 					width = 0.95,
 					height = 0.95,
+          preview_cutoff = 80,
+          preview_width = 0.5,
 				},
 				mappings = {
 					i = {
