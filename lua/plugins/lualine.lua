@@ -53,6 +53,10 @@ return {
 		local filename = {
 			"filename",
 		}
+    local searchcount = {
+      "searchcount",
+      maxcount = 999999999
+    }
 
 		require("lualine").setup({
 			options = {
@@ -64,7 +68,7 @@ return {
 				lualine_a = { "mode" },
 				lualine_b = {},
 				lualine_c = { filetype, filename, "location", "progress", diagnostics, lsp_status, "os.date('%X')" },
-				lualine_x = { diff, "branch" },
+				lualine_x = { searchcount, diff, "branch" },
 				lualine_y = {},
 				lualine_z = {},
 			},
