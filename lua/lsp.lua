@@ -108,5 +108,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		return
 	end,
 })
-vim.lsp.enable({ "rust_analyzer", "clangd", "luals" })
+vim.lsp.enable({ "rust_analyzer", "clangd", "luals", "csharp-ls" })
 vim.lsp.set_log_level("off")
