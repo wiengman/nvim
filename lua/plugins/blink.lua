@@ -20,7 +20,10 @@ return {
 			min_keyword_length = 0,
 			default = { "lsp", "path", "snippets", "buffer" },
 		},
-		fuzzy = { implementation = "prefer_rust" },
+		fuzzy = { implementation = "prefer_rust",
+  frecency = {
+    enabled = false,
+  },},
 		completion = {
 			list = { selection = { preselect = false } },
 			menu = {
