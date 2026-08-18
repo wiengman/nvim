@@ -57,21 +57,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
       client.server_capabilities.completionProvider.triggerCharacters = chars
       vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-      vim.keymap.set("i", "<Tab>", function()
+
+      map("n", "<leader>fm", vim.lsp.buf.format, { silent = true })
+      map("i", "<Tab>", function()
         if vim.fn.pumvisible() == 1 and not vim.snippet.active() then
           return "<C-n>"
         end
         return "<Tab>"
       end, { expr = true })
 
-      vim.keymap.set("i", "<S-Tab>", function()
+      map("i", "<S-Tab>", function()
         if vim.fn.pumvisible() == 1 and not vim.snippet.active() then
           return "<C-p>"
         end
         return "<S-Tab>"
       end, { expr = true })
 
-      vim.keymap.set("i", "<CR>", function()
+      map("i", "<CR>", function()
         if vim.fn.pumvisible() == 1 then
           return "<C-y>"
         end
@@ -92,7 +94,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.lsp.enable({ "clangd", "luals", "omnisharp" })
+vim.lsp.enable({ "clangd", "luals", "csharp_ls" })
 vim.lsp.log.set_level("off")
 
 local diagnosticSymbols = {
@@ -132,6 +134,42 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
   end,
 })
 
+
+local fileDiff = function()
+  vim.b.git_diff = ""
+  if vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("%s+$", "") ~= "" then
+    local file_name = vim.fn.expand("%")
+    if file_name ~= "" then
+      local diff = vim.fn.system("git diff --numstat " .. file_name .. " 2>/dev/null")
+      local added, removed = diff:match("^(%d+)%s+(%d+)")
+      if added ~= nil then
+        vim.b.git_diff = vim.b.git_diff .. string.format(" %s ", added)
+      end
+      if removed ~= nil then
+        vim.b.git_diff = vim.b.git_diff .. string.format(" %s ", removed)
+      end
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  callback = function()
+    fileDiff()
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    fileDiff()
+    local root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("%s+$", "")
+    if root ~= "" then
+      vim.b.git_branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("%s+$", "")
+    else
+      vim.b.git_branch = ""
+    end
+  end,
+})
+
 function _G.statusline()
   local modes = {
     n = "NORMAL",
@@ -148,19 +186,6 @@ function _G.statusline()
   }
   local mode = modes[vim.fn.mode()]
 
-  local git_branch = ""
-  local git_diff = ""
-  local file_name = vim.fn.expand("%")
-  if vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("%s+$", "") ~= "" then
-    git_branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("%s+$", "")
-    if file_name ~= "" then
-      git_diff = vim.fn.system("git diff --numstat " .. file_name .. " 2>/dev/null")
-    end
-  end
-  if git_diff ~= "" then
-    local added, removed = git_diff:match("^(%d+)%s+(%d+)")
-    git_diff = string.format(" %s  %s", added, removed)
-  end
 
   local diagnostics = ""
   for diagnostic, count in pairs(vim.diagnostic.count(0)) do
@@ -169,7 +194,8 @@ function _G.statusline()
     end
   end
 
-  return mode .. " " .. git_branch .. " " .. git_diff .. " " .. "%f" .. " " .. "%y" .. " %l:%c " .. diagnostics
+  return mode ..
+      " " .. vim.b.git_branch .. " " .. vim.b.git_diff .. " " .. "%f" .. " " .. "%y" .. " %l:%c " .. diagnostics
 end
 
 vim.o.statusline = "%!v:lua.statusline()"
@@ -185,7 +211,6 @@ local grep = function()
 end
 
 map("n", "<leader>fg", grep, { silent = true })
-map("n", "<leader>fm", vim.lsp.buf.format, { silent = true })
 
 
 
@@ -216,7 +241,7 @@ function _G.native_find(text, _)
 end
 
 vim.opt.findfunc = "v:lua.native_find"
-vim.keymap.set("n", "<leader>ff", ":find ", { silent = false })
+map("n", "<leader>ff", ":find ", { silent = false })
 
 -- Diagnostics
 map("n", "<leader>d", function()
