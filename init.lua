@@ -94,8 +94,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.lsp.enable({ "clangd", "luals", "csharp_ls" })
-vim.lsp.log.set_level("off")
 
 local diagnosticSymbols = {
   [vim.diagnostic.severity.ERROR] = " ",
@@ -389,3 +387,7 @@ vim.api.nvim_create_autocmd('FileType', {
     end
   end
 })
+
+
+vim.lsp.enable({ "clangd", "luals", "roslyn_ls" })
+vim.lsp.log.set_level("off")
